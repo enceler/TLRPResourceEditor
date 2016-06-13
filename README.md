@@ -1,42 +1,39 @@
-﻿TLRP Resource Editor 2.1
+# TLRP Resource Editor 2.1
 
-Display and change default values for the pc game The Last Remnant.
+Display and change default values for the PC game The Last Remnant.
 
-Licence: MIT
-Author:  enceler
-Year:    2016
+* Released under the MIT Licence by enceler, 2016
+* Requires C# 6, .NET Framework 4.5
 
-C# 6, .NET Framework 4.5
-
-Libraries used:
-  mahapps.metro (http://mahapps.com/) for the metro-style interface (Ms-PL)
-  Fody (MIT)
-  Fody.PropertyChanged (https://github.com/Fody/PropertyChanged) for auto INotifyPropertyChanged (MIT)
+### Libraries used:
+  * mahapps.metro (http://mahapps.com/) for the metro-style interface (Ms-PL)
+  * Fody (MIT)
+  * Fody.PropertyChanged (https://github.com/Fody/PropertyChanged) for auto INotifyPropertyChanged (MIT)
 
 The mahapps.metro library will be embedded in the binary when compiling to create a single-file program. Fody is only used at compile time.
 Due to the licence used (GPL2), lzo decompression for assets has been temporarily removed.
 
 
-Project structure
- ./                             
-   MainWindow.xaml                  UI
- ./Data/
+### Project structure
+    ./                             
+        MainWindow.xaml             UI
+    ./Data/
         Files.cs                    All filesystem-related operations: read tlr path, look for files, calculate file offsets
         Names.cs                    All string-table related operations: name tables and id-to-name mappings
         UPKFile.cs                  Currently not used; read and process upk/tlr files; extract textures and music
- ./Models/
+    ./Models/
         Equipment.cs                Table 127 (Equipment)
         Map.cs                      Process map files (spawns, interactions)
         Monster.cs                  Table 259 (Monsters)
         MonsterFormation.cs         Table 123 (Monster Formations)
         Unit.cs                     Table 260 (Friendly Characters) and 270 (Party Talk)
- ./Resources
- ./ViewModels
+    ./Resources
+    ./ViewModels
         MainWindowViewModel.cs      ViewModel for MainWindow
         RelayCommand.cs             ICommand implementation for ViewModel
 
 
-TO DO:
+### TO DO:
  * Add map image to map lists; show spawn directly on the map
  * Group spawns by the same spawn rule (always spawn together)
  * Add details for "Flag"s in spawn rules; possibly display rules directly as a tree
