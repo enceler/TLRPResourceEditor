@@ -1,0 +1,58 @@
+﻿Savegame offsets:
+
+    0x00 -     0x0B: file header - 12 Bytes
+    0x0C -     0x1F: SHA-1 checksum - 20 Bytes
+
+    0x20 -     0x2F: ??? - 16 Bytes
+    0x30 -     0x7B: Current map - 76 Bytes
+    0x7C -    0x11F: ??? - 164 Bytes
+
+   0x120 -   0x12A3: Locations - 59*76=4484 Bytes
+  0x12A4 -   0x1FB3: Areas - 44*76=3344 Bytes
+  0x1FB4 -   0x4C67: ???
+
+  0x4C68 -   0x6267: AoYPlanGlobalValue; with...
+                     0x4F74 - 0x4F77: Progress; and...
+                     0x5B70 - 0x5D67: Quest and remnant status - 126*4=504 Bytes
+
+  0x6268 -   0x9F73: ??? - 8715 Bytes
+  0x9F74 -  0x12DDB: List 1 (area interactions: people, treasures, excavation points, doors) - 9114*4=36456 Bytes
+ 0x12DDC -  0x131DF: List 2 (monster spawns, ...) - 257*4=1003 Bytes (might be less than 257)
+ 0x131E0 -  0x1944F: Encounters - 210*120=25200 Bytes (210 is only an informed guess; up to 256 possible)
+ 0x19450 -  0x1A9DF: ??? - 5519 Bytes
+ 0x1A9E0 -  0x1B6FF: ? Encounters in visited area in current map - ? 210*16=3360 Bytes
+ 0x1B700 -  0x1C9DF: ??? (seems empty) - 4832 Bytes (might be 302*16 previous encounters)
+ 0x1C9E0 -  0x1CA2B: ??? - 76 Bytes
+ 0x1CA2C -  0x1CA56: Current map (about 43 Bytes)
+ 0x1CA57 -  0x1CADF: ??? - 137 Bytes
+
+
+ 0x1CAE0 -  0x1CE77: Table 172: 231*4=920 Bytes
+ 0x1CE78 -  0x1CF93: Table 179: 70*4=280 Bytes
+ 0x1CF94 -  0x1D2B7: Table 226: Guild Tasks - 201*4=804 Bytes
+ 0x1D2B8 -  0x1D2D3: Table 228: Mr. Diggs - 1*28=28 Bytes
+ 0x1D2D4 -  0x1D2D7: ??? (trash) - 4 Bytes
+ 0x1D2D8 -  0x1D977: Table 229: Monster kills - 424*4=1696 Bytes
+ 0x1D978 -  0x1D97B: Table 230: Money - 1*4=4 Bytes
+ 0x1D97C -  0x1DB0B: Table 231: Accessories - 50*8=400 Bytes
+ 0x1DB0C -  0x209EB: Table 232: Party Equipment Weapon - 100*120=12000 Bytes
+ 0x209EC -  0x259D7: Table 233: Items - 1705*12=20460 Bytes
+ 0x259D8 -  0x25A69: Table 234: Game values - 1*146=146 Bytes
+ 0x25A6A -  0x25C6B: ??? (empty; probably table 235) - 514 Bytes
+ 0x25C6C -  0x25F0B: Table 237: Unions - 8*84=672 Bytes
+ 0x25F0C -  0x3D9CB: Table 242: Unit Equipment Weapon - 808*120=96960 Bytes
+ 0x3D9CC -  0x6709B: Table 245: Units - 404*420=169680 Bytes
+ 0x6709C -  0xA575B: Table 246: Combat Arts - 1598*160=255680 Bytes
+ 0xA575C -  0xC4ABB: Table 247: Combat Arts Skill Direction - 1598*80=127840 Bytes
+ 0xC4ABC -  0xC838B: Table 248: Weapon Skills - 404*36=14544 Bytes
+ 0xC838C -  0xCC8FB: Table 249: Wield Styles - 404*44=17776 Bytes
+ 0xCC8FC -  0xFB8DB: Table 250: Item Arts - 2406*80=192480 Bytes
+ 0xFB8DC -  0xFF1AB: Table 251: Item Skills - 404*36=14544
+ 0xFF1AC - 0x135EDB: Table 252: Mystic Arts - 2807*80=224560 Bytes
+0x135EDC - 0x13A44B: Table 253: Mystic Skills - 404*44=17776 Bytes
+0x13A44C - 0x1A26CB: Table 254: Unit Skill Usable - 404*1056=426624 Bytes
+0x1A26CC - 0x1A2A03: Table 275: Shop Trade Stock - 103*8=824 Bytes
+0x1A2A04 - 0x1A2A13: Table 276: Commerce Points - 1*16=16 Bytes
+0x1A2A14 - 0x1A2BB3: Table 279: Party Talk Message - 52*8=416 Bytes
+0x1A2BB4 - 0x1A3E73: Table 285: Component Help: 60*80=4800 Bytes
+0x1A3E74 - 0x1A3E7F: ??? (trash) - 11 Bytes

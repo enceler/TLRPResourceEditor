@@ -1,0 +1,19 @@
+﻿309003488 +60 +72 -> String tables
+          + stringnr * 12 + 4: string size
+          + stringnr * 12: string position
+
+309003488 +60 +60 -> Data tables
+          + tablenr * 52 + 44: table address
+          + tablenr * 52 + 16: # of table entries
+          + tablenr * 52 + 12: entry size
+
+308599248 +16 +96 +1680 -> Diggs Data (5 Bytes)
+
+308994204 +684    -> Locations (103*76 Bytes)
+308994204 +20704  -> Times Cleared (4 Bytes)
+
+309004088 +292   -> Current Map (16 Bytes)
+309004088 +2140  -> Progress (4 Bytes)
+309004088 +5216  -> Quests (41 * 16 Bytes)
+309004088 +22620 -> List 1 (36456 Bytes)
+309004088 +60104 -> Encouter (120 * 249 Bytes)
