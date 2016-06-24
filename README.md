@@ -1,4 +1,4 @@
-# TLRP Resource Editor 2.1
+# TLRP Resource Editor 2.2
 
 Display and change default values for the PC game The Last Remnant.
 
