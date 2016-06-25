@@ -1,11 +1,10 @@
-﻿using PropertyChanged;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Windows;
+using System.Windows.Forms;
+using PropertyChanged;
 using TLRPResourceEditor.Data;
+using TLRPResourceEditor.Properties;
 
 namespace TLRPResourceEditor.Models
 {
@@ -49,16 +48,17 @@ namespace TLRPResourceEditor.Models
         public static void LoadData()
         {
             MonsterFormations.Clear();
+            //MonsterFormations = new ObservableCollection<MonsterFormation>();
             var data = File.ReadAllBytes(Files.BattleFile);
             
             for (var i = 0; i < 2292; i++)
             {
-                /// Formation data
+                // Formation data
                 var insideOffset = Files.TableOffsets[123] + (i * 240);
                 var monster = new MonsterFormation
                 {
                     Id = i * 5,
-                    Name = Names.UnitNames[Names.Id262To36[Names.Id259to262[BitConverter.ToInt16(data, 26 + insideOffset)]]],
+                    Name = Names.UnitNames[Names.Id262To36[Names.Id259To262[BitConverter.ToInt16(data, 26 + insideOffset)]]],
                     MonsterList = new ObservableCollection<Monster>(),
                     BRMin1 = data[28 + insideOffset],
                     BRMax1 = data[29 + insideOffset],
@@ -80,7 +80,7 @@ namespace TLRPResourceEditor.Models
                     Offset = insideOffset
                 };
 
-                /// Formation monster entries
+                // Formation monster entries
                 for (int j = 0; j < 5; j++)
                 {
                     var monsterId = BitConverter.ToInt16(data, 26 + insideOffset + (j * 48));
@@ -110,17 +110,17 @@ namespace TLRPResourceEditor.Models
                     for (var i = 0; i < 5; i++)
                     {
                         stream.Seek(Offset + 26 + (48 * i), SeekOrigin.Begin);
-                        if (i > MonsterList.Count - 1)
-                            stream.Write(new byte[] { (byte)unused, (byte)(unused >> 8) }, 0, 2);
-                        else
-                            stream.Write(new byte[] { (byte)MonsterList[i].Id, (byte)(MonsterList[i].Id >> 8) }, 0, 2);
+                        stream.Write(
+                            i > MonsterList.Count - 1
+                                ? new[] {(byte) unused, (byte) (unused >> 8)}
+                                : new[] {(byte) MonsterList[i].Id, (byte) (MonsterList[i].Id >> 8)}, 0, 2);
                     }
                 }
 
             }
-            catch (IOException x)
+            catch (IOException)
             {
-                MessageBox.Show("Could not write to the game files. Make sure the game isn't running and that the files can be overwritten.");
+                MessageBox.Show(Resources.FileCannotBeOverwritten);
             }
             catch (Exception x)
             {
@@ -142,14 +142,14 @@ namespace TLRPResourceEditor.Models
                     if (length == 4)
                         stream.Write(BitConverter.GetBytes(value), 0, 4);
                     else if (length == 2)
-                        stream.Write(new byte[] { (byte)value, (byte)(value >> 8) }, 0, 2);
+                        stream.Write(new[] { (byte)value, (byte)(value >> 8) }, 0, 2);
                     else
-                        stream.Write(new byte[] { (byte)value }, 0, 1);
+                        stream.Write(new[] { (byte)value }, 0, 1);
                 }
             }
-            catch (IOException x)
+            catch (IOException)
             {
-                MessageBox.Show("Could not write to the game files. Make sure the game isn't running and that the files can be overwritten.");
+                MessageBox.Show(Resources.FileCannotBeOverwritten);
             }
             catch (Exception x)
             {

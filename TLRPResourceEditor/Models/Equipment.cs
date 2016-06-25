@@ -1,10 +1,10 @@
-﻿using PropertyChanged;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Windows;
+using System.Windows.Forms;
+using PropertyChanged;
 using TLRPResourceEditor.Data;
+using TLRPResourceEditor.Properties;
 
 namespace TLRPResourceEditor.Models
 {
@@ -27,7 +27,7 @@ namespace TLRPResourceEditor.Models
                     //Name                    = 
                     NameString              = Names.ItemNames[BitConverter.ToInt16(data, 0 + offset)],
                     MaterialId              = data[6 + offset],
-                    SortID                  = BitConverter.ToInt16(data, 18),
+                    SortId                  = BitConverter.ToInt16(data, 18),
                     BuyPrice                = BitConverter.ToInt32(data, 20),
                     SellPrice               = BitConverter.ToInt32(data, 24),
                     BreakPrice              = BitConverter.ToInt32(data, 28),
@@ -87,7 +87,7 @@ namespace TLRPResourceEditor.Models
         public string NameString            { get; set; }
         public int Model                    { get; set; }
         public int MaterialId               { get; set; }
-        public int SortID                   { get; set; }
+        public int SortId                   { get; set; }
         public bool Break                   { get; set; }
         public bool Sell                    { get; set; }
         public int EquipType                { get; set; }
@@ -132,14 +132,14 @@ namespace TLRPResourceEditor.Models
                     if (length == 4)
                         stream.Write(BitConverter.GetBytes(value), 0, 4);
                     else if (length == 2)
-                        stream.Write(new byte[] { (byte)value, (byte)(value >> 8) }, 0, 2);
+                        stream.Write(new[] { (byte)value, (byte)(value >> 8) }, 0, 2);
                     else
-                        stream.Write(new byte[] { (byte)value }, 0, 1);
+                        stream.Write(new[] { (byte)value }, 0, 1);
                 }
             }
-            catch (IOException x)
+            catch (IOException)
             {
-                MessageBox.Show("Could not write to the game files. Make sure the game isn't running and that the files can be overwritten.");
+                MessageBox.Show(Resources.FileCannotBeOverwritten);
             }
             catch (Exception x)
             {
@@ -150,7 +150,7 @@ namespace TLRPResourceEditor.Models
 
         public override string ToString()
         {
-            return $"[{Id}] {NameString.Substring(NameString.IndexOf("]") + 1)}";
+            return $"[{Id}] {NameString.Substring(NameString.IndexOf("]", StringComparison.Ordinal) + 1)}";
         }
 
     }

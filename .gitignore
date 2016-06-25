@@ -3,3 +3,8 @@
 ################################################################################
 
 /.vs/TLRPResourceEditor/v14/.suo
+/TLRPResourceEditor/TLRPResourceEditor.csproj.DotSettings.user
+/TLRPResourceEditor/TLRPResourceEditor.csproj.user
+/packages
+/TLRPResourceEditor/bin/Debug
+/TLRPResourceEditor/obj/Debug

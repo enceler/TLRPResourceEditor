@@ -1,10 +1,11 @@
-﻿using Microsoft.Win32;
-using PropertyChanged;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows;
+using System.Windows.Forms;
+using Microsoft.Win32;
+using PropertyChanged;
 using TLRPResourceEditor.Models;
+using TLRPResourceEditor.ViewModels;
 
 namespace TLRPResourceEditor.Data
 {
@@ -20,8 +21,9 @@ namespace TLRPResourceEditor.Data
         public static string         CookedPCPath { get; set; }
         public static Language       Language     { get { return language; } set { ChangeLanguage(value); } }
         public static int[]          TableOffsets { get; set; }
-        public static MainWindow     mainwindow   { get; set; }
         public static List<MapFiles> MapFiles     { get; set; }
+
+        public static EnemyViewModel enemyViewModel { get; set; }
 
         private static List<string> LanguageFiles = new List<string> { "PLAN_BTL_DT_US.upk", "PLAN_BTL_DT_DE.upk", "PLAN_BTL_DT_ES.upk", "PLAN_BTL_DT_FR.upk", "PLAN_BTL_DT_IT.upk", "PLAN_BTL_DT_JA.upk" };
         private static Language language = Language.English;
@@ -46,7 +48,7 @@ namespace TLRPResourceEditor.Data
         {
             try
             {
-                if (path == null || path == "")
+                if (string.IsNullOrEmpty(path))
                     CookedPCPath = FindTLRPath();
                 else
                     CookedPCPath = path;
@@ -56,14 +58,14 @@ namespace TLRPResourceEditor.Data
 
                 if (!File.Exists(BattleFile))
                 {
-                    if (path == null || path == "")
+                    if (string.IsNullOrEmpty(path))
                         MessageBox.Show("Could not find path to The Last Remnant in the registy. Please enter the path manually.");
                     else
                         MessageBox.Show("Could not find The Last Remnant in the selected path.");
                     return;
                 }
 
-                /// Create backups
+                // Create backups
                 if (!File.Exists(BattleFile + ".backup"))
                     File.Copy(BattleFile, BattleFile + ".backup");
 
@@ -73,7 +75,7 @@ namespace TLRPResourceEditor.Data
                         File.Copy(entry.MapFile, entry.MapFile + ".backup");
                 }
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
                 MessageBox.Show("Could not find path to The Last Remnant in the registy. Please enter the path manually.");
             }
@@ -109,13 +111,6 @@ namespace TLRPResourceEditor.Data
                 Equipment.LoadData();
                 Unit.LoadData();
                 Map.LoadData();
-
-                // TODO: this should really not be here. Use better viewmodels and observers!
-                mainwindow._viewmodel.MonsterFormations = MonsterFormation.MonsterFormations;
-                mainwindow._viewmodel.MonsterList = Monster.Monsters;
-                mainwindow._viewmodel.Units = Unit.Units;
-                mainwindow._viewmodel.Equipments = Equipment.Equipments;
-                mainwindow._viewmodel.Maps = Map.Maps;
         }
             catch (Exception e)
             {
@@ -272,38 +267,38 @@ namespace TLRPResourceEditor.Data
         {
             var result = new List<MapFiles>
                 {
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/CKD/CKD_DATA_000.upk"), MapName = "Ancient Ruins" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/NWD/NWD_DATA_000.upk"), MapName = "Aqueducts" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/DLD/DLD_DATA_000.upk"), MapName = "Aveclyff" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/ETV/ETV_DATA_000.upk"), MapName = "Berechevaltelle" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/BDL/BDL_DATA_000.upk"), MapName = "Blackdale" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/UMD/UMD_DATA_000.upk"), MapName = "Catacombs" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/CRK/CRK_DATA_000.upk"), MapName = "Crookfen" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/DKF/DKF_DATA_000.upk"), MapName = "Darken Forest" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/DLP/DLP_DATA_000.upk"), MapName = "Dillmoor" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/GST/GST_DATA_000.upk"), MapName = "Flaumello Tower" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/FRN/FRN_DATA_000.upk"), MapName = "Fornstrand" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/GAS/GAS_DATA_000.upk"), MapName = "Gaslin Caves" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/GSS/GSS_DATA_000.upk"), MapName = "Great Sand Sea" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/GSD/GSD_DATA_000.upk"), MapName = "Great Subterrane" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/GTN/GTN_DATA_000.upk"), MapName = "Heroic Ramparts" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/BTE/BTE_DATA_000.upk"), MapName = "Ivory Peaks" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/STR/STR_DATA_000.upk"), MapName = "Lavafender" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/BHK/BHK_DATA_000.upk"), MapName = "Mojcado Castle" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/VKL/VKL_DATA_000.upk"), MapName = "Mt. Vackel" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/NUD/NUD_DATA_000.upk"), MapName = "Numor Mines" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/RBC/RBC_DATA_000.upk"), MapName = "Ruins of Robelia Castle" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/ESB/ESB_DATA_000.upk"), MapName = "Sacred Lands" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/SBC/SBC_DATA_000.upk"), MapName = "Siebenbur (1)" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/SBF/SBF_DATA_000.upk"), MapName = "Siebenbur (2)" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/SBM/SBM_DATA_000.upk"), MapName = "Siebenbur (4/5)" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/SBN/SBN_DATA_000.upk"), MapName = "Siebenbur (6/7)" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/ETB/ETB_DATA_000.upk"), MapName = "Southwestern Road" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/STB/STB_DATA_000.upk"), MapName = "Vale of the Gods" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/BND/BND_DATA_000.upk"), MapName = "Yvalock's Nest" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/DRC/DRC_DATA_000.upk"), MapName = "Wyrmskeep" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/YFD/YFD_DATA_000.upk"), MapName = "Yamarn Cave" },
-                    new Data.MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/BND/BND_DATA_000.upk"), MapName = "Yvalock's Nest" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/CKD/CKD_DATA_000.upk"), MapName = "Ancient Ruins" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/NWD/NWD_DATA_000.upk"), MapName = "Aqueducts" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/DLD/DLD_DATA_000.upk"), MapName = "Aveclyff" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/ETV/ETV_DATA_000.upk"), MapName = "Berechevaltelle" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/BDL/BDL_DATA_000.upk"), MapName = "Blackdale" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/UMD/UMD_DATA_000.upk"), MapName = "Catacombs" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/CRK/CRK_DATA_000.upk"), MapName = "Crookfen" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/DKF/DKF_DATA_000.upk"), MapName = "Darken Forest" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/DLP/DLP_DATA_000.upk"), MapName = "Dillmoor" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/GST/GST_DATA_000.upk"), MapName = "Flaumello Tower" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/FRN/FRN_DATA_000.upk"), MapName = "Fornstrand" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/GAS/GAS_DATA_000.upk"), MapName = "Gaslin Caves" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/GSS/GSS_DATA_000.upk"), MapName = "Great Sand Sea" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/GSD/GSD_DATA_000.upk"), MapName = "Great Subterrane" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/GTN/GTN_DATA_000.upk"), MapName = "Heroic Ramparts" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/BTE/BTE_DATA_000.upk"), MapName = "Ivory Peaks" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/STR/STR_DATA_000.upk"), MapName = "Lavafender" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/BHK/BHK_DATA_000.upk"), MapName = "Mojcado Castle" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/VKL/VKL_DATA_000.upk"), MapName = "Mt. Vackel" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/NUD/NUD_DATA_000.upk"), MapName = "Numor Mines" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/RBC/RBC_DATA_000.upk"), MapName = "Ruins of Robelia Castle" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/ESB/ESB_DATA_000.upk"), MapName = "Sacred Lands" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/SBC/SBC_DATA_000.upk"), MapName = "Siebenbur (1)" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/SBF/SBF_DATA_000.upk"), MapName = "Siebenbur (2)" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/SBM/SBM_DATA_000.upk"), MapName = "Siebenbur (4/5)" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/SBN/SBN_DATA_000.upk"), MapName = "Siebenbur (6/7)" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/ETB/ETB_DATA_000.upk"), MapName = "Southwestern Road" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/STB/STB_DATA_000.upk"), MapName = "Vale of the Gods" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/BND/BND_DATA_000.upk"), MapName = "Yvalock's Nest" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/DRC/DRC_DATA_000.upk"), MapName = "Wyrmskeep" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/YFD/YFD_DATA_000.upk"), MapName = "Yamarn Cave" },
+                    new MapFiles {MapFile = Path.Combine(CookedPCPath, @"PLAN/MAP/FIELD/BND/BND_DATA_000.upk"), MapName = "Yvalock's Nest" },
                 };
             return result;
         }

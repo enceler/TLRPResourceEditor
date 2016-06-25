@@ -1,10 +1,11 @@
-﻿using PropertyChanged;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Windows;
+using System.Windows.Forms;
+using PropertyChanged;
 using TLRPResourceEditor.Data;
+using TLRPResourceEditor.Properties;
 
 namespace TLRPResourceEditor.Models
 {
@@ -12,7 +13,7 @@ namespace TLRPResourceEditor.Models
     public class Unit
     {
         public static ObservableCollection<Unit> Units { get; set; } = new ObservableCollection<Unit>();
-        private static List<Talk> Talks = new List<Talk>();
+        private static readonly List<Talk> Talks = new List<Talk>();
 
         public static void LoadData()
         {
@@ -21,10 +22,10 @@ namespace TLRPResourceEditor.Models
 
             var data = File.ReadAllBytes(Files.BattleFile);
 
-            /// Collects the names of all units that share the same party talks
+            // Collects the names of all units that share the same party talks
             var mapping = new Dictionary<int, List<string>>();
 
-            /// Read the possible party talks (including which arts to learn at what BR)
+            // Read the possible party talks (including which arts to learn at what BR)
             var offset = Files.TableOffsets[270];
             for (var i = 0; i < 57; i++)
             {
@@ -40,7 +41,7 @@ namespace TLRPResourceEditor.Models
                 offset += 136;
             }
 
-            /// Read all 404 usable characters
+            // Read all 404 usable characters
             offset = Files.TableOffsets[260];
             for (var i = 0; i < 404; i++)
             {
@@ -157,14 +158,14 @@ namespace TLRPResourceEditor.Models
                     if (length == 4)
                         stream.Write(BitConverter.GetBytes(value), 0, 4);
                     else if (length == 2)
-                        stream.Write(new byte[] { (byte)value, (byte)(value >> 8) }, 0, 2);
+                        stream.Write(new[] { (byte)value, (byte)(value >> 8) }, 0, 2);
                     else
-                        stream.Write(new byte[] { (byte)value }, 0, 1);
+                        stream.Write(new[] { (byte)value }, 0, 1);
                 }
             }
             catch (IOException)
             {
-                MessageBox.Show("Could not write to the game files. Make sure the game isn't running and that the files can be overwritten.");
+                MessageBox.Show(Resources.FileCannotBeOverwritten);
             }
             catch (Exception x)
             {
@@ -203,14 +204,14 @@ namespace TLRPResourceEditor.Models
                     if (length == 4)
                         stream.Write(BitConverter.GetBytes(value), 0, 4);
                     else if (length == 2)
-                        stream.Write(new byte[] { (byte)value, (byte)(value >> 8) }, 0, 2);
+                        stream.Write(new[] { (byte)value, (byte)(value >> 8) }, 0, 2);
                     else
-                        stream.Write(new byte[] { (byte)value }, 0, 1);
+                        stream.Write(new[] { (byte)value }, 0, 1);
                 }
             }
-            catch (IOException x)
+            catch (IOException)
             {
-                MessageBox.Show("Could not write to the game files. Make sure the game isn't running and that the files can be overwritten.");
+                MessageBox.Show(Resources.FileCannotBeOverwritten);
             }
             catch (Exception x)
             {

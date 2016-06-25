@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace TLRPResourceEditor.Data
 {
@@ -22,7 +17,7 @@ namespace TLRPResourceEditor.Data
     ///    https://wiki.beyondunreal.com/Unreal_package
     /// or Gildor's Forums at http://www.gildor.org/smf/index.php
     /// </summary>
-    public class UPKFile
+    public class UpkFile
     {
         /// <summary>
         /// The raw bytes of the file.
@@ -43,7 +38,7 @@ namespace TLRPResourceEditor.Data
         /// <summary>
         /// List of all export objects used by this package.
         /// </summary>
-        public List<UPKObject> Exports { get; set; }
+        public List<UpkObject> Exports { get; set; }
         /// <summary>
         /// List of all chunk data used by this package.
         /// </summary>
@@ -51,7 +46,7 @@ namespace TLRPResourceEditor.Data
         /// <summary>
         /// Flag for file compression. If set, it usually denotates a lzo compression.
         /// </summary>
-        private int Compression;
+        private int _compression;
 
         /// <summary>
         /// Initializes this object with a upk file. upk files usually end with .upk; in some cases
@@ -59,7 +54,7 @@ namespace TLRPResourceEditor.Data
         /// The whole file is automatically read into memory and analyzed.
         /// </summary>
         /// <param name="fileToRead"></param>
-        public UPKFile(string fileToRead)
+        public UpkFile(string fileToRead)
         {
             Contract.Requires(fileToRead != null);
             Contract.Requires(fileToRead.Length > 0);
@@ -68,7 +63,7 @@ namespace TLRPResourceEditor.Data
 
             FileName    = fileToRead;
             Data        = File.ReadAllBytes(fileToRead);
-            Compression = BitConverter.ToInt32(Data, 93);
+            _compression = BitConverter.ToInt32(Data, 93);
             Names       = ReadNames();
             Imports     = ReadImports();
             Exports     = ReadExports();
@@ -94,16 +89,15 @@ namespace TLRPResourceEditor.Data
             var importOffset = BitConverter.ToInt32(Data, 45);
             for (int i = 0; i < BitConverter.ToInt32(Data, 41); i++)
             {
-                var id = BitConverter.ToInt32(Data, importOffset + 20);
                 imports.Add(Names[BitConverter.ToInt32(Data, importOffset + 20)]);
                 importOffset += 28;
             }
             return imports;
         }
 
-        private List<UPKObject> ReadExports()
+        private List<UpkObject> ReadExports()
         {
-            var exports = new List<UPKObject>();
+            var exports = new List<UpkObject>();
             var exportCount = BitConverter.ToInt32(Data, 33);
             var exportOffset = BitConverter.ToInt32(Data, 37);
 
@@ -118,12 +112,12 @@ namespace TLRPResourceEditor.Data
                 }
 
                 exports.Add(upk);
-                exportOffset += (upk.additionalFields * 4) + 72;
+                exportOffset += (upk.AdditionalFields * 4) + 72;
             }
             return exports;
         }
 
-        private UPKObject ReadExportData(int exportOffset)
+        private UpkObject ReadExportData(int exportOffset)
         {
             var nameId = BitConverter.ToInt32(Data, exportOffset + 12);
             var name = Names[nameId];
@@ -134,41 +128,41 @@ namespace TLRPResourceEditor.Data
 
             if (dataSize < 1)
             {
-                return new UPKObject { Name = name, Type = "None" };
+                return new UpkObject { Name = name, Type = "None" };
             }
 
             var id = BitConverter.ToInt32(Data, exportOffset);
-            var type = Names[BitConverter.ToInt32(Data, exportOffset + 12)];
+            // var type = Names[BitConverter.ToInt32(Data, exportOffset + 12)];
             var data = new byte[dataSize];
-            type = Names[Names.Count - 1 + id];
+            var type = Names[Names.Count - 1 + id];
             Array.Copy(Data, dataOffset, data, 0, dataSize);
-            return new UPKObject { Name = name, Type = type, ExportData = data, dataOffset = dataOffset, additionalFields = additionalFields };
+            return new UpkObject { Name = name, Type = type, ExportData = data, DataOffset = dataOffset, AdditionalFields = additionalFields };
         }
 
-        private Dictionary<string, int> ReadExportAttributes(UPKObject upk)
+        private Dictionary<string, int> ReadExportAttributes(UpkObject upk)
         {
             var result = new Dictionary<string, int>();
             var attributeOffset = 4;
             var attrName = "";
             while (attrName != "SourceFileTimestamp" && attrName != "None")
             {
-                attrName = Names[BitConverter.ToInt32(Data, upk.dataOffset + attributeOffset)];
-                var attrType = Names[BitConverter.ToInt32(Data, upk.dataOffset + attributeOffset + 8)];
-                var attrLength = BitConverter.ToInt32(Data, upk.dataOffset + attributeOffset + 16);
-                var attrValue = BitConverter.ToInt32(Data, upk.dataOffset + attributeOffset + 24);
+                attrName = Names[BitConverter.ToInt32(Data, upk.DataOffset + attributeOffset)];
+                // var attrType = Names[BitConverter.ToInt32(Data, upk.dataOffset + attributeOffset + 8)];
+                var attrLength = BitConverter.ToInt32(Data, upk.DataOffset + attributeOffset + 16);
+                var attrValue = BitConverter.ToInt32(Data, upk.DataOffset + attributeOffset + 24);
                 result[attrName] = attrValue;
                 attributeOffset += 24;
                 attributeOffset += attrLength;
                 if (attrLength == 0)
                     attributeOffset += 4;
             }
-            upk.attributeOffset = attributeOffset;
+            upk.AttributeOffset = attributeOffset;
             return result;
         }
 
-        private List<BulkDataInfo> ReadExportBlocks(UPKObject upk)
+        private List<BulkDataInfo> ReadExportBlocks(UpkObject upk)
         {
-            var rawDataStart = upk.dataOffset + upk.attributeOffset + 20;
+            var rawDataStart = upk.DataOffset + upk.AttributeOffset + 20;
 
             var blockOffset = BitConverter.ToInt32(Data, rawDataStart);
             var numberOfBlocks = BitConverter.ToInt32(Data, blockOffset);
@@ -226,17 +220,17 @@ namespace TLRPResourceEditor.Data
     /// Represents an export object in the upk package file.
     /// Export object have more attributes than just the raw bytes themselves.
     /// </summary>
-    public class UPKObject
+    public class UpkObject
     {
         public string Name { get; set; }
         public string Type { get; set; }
         public byte[] ExportData { get; set; }
         public Dictionary<string, int> Attributes { get; set; } = new Dictionary<string, int>();
         public List<BulkDataInfo> BulkData { get; set; }
-        public int dataOffset { get; set; }
-        public int rawDataOffset { get; set; }
-        public int attributeOffset { get; set; }
-        public int additionalFields { get; set; }
+        public int DataOffset { get; set; }
+        public int RawDataOffset { get; set; }
+        public int AttributeOffset { get; set; }
+        public int AdditionalFields { get; set; }
 
         public override string ToString()
         {

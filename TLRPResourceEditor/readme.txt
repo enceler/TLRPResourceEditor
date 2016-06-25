@@ -1,4 +1,4 @@
-﻿TLRP Resource Editor 2.1
+﻿TLRP Resource Editor 2.2
 
 Licence: MIT
 Author:  enceler
@@ -17,7 +17,7 @@ Due to the licence used (GPL2), lzo decompression for assets has been temporaril
 
 Project structure
  ./                             
-   MainWindow.xaml                  UI
+   MainWindow.xaml                  Entry point for the UI
  ./Data/
         Files.cs                    All filesystem-related operations: read tlr path, look for files, calculate file offsets
         Names.cs                    All string-table related operations: name tables and id-to-name mappings
@@ -28,21 +28,17 @@ Project structure
         Monster.cs                  Table 259 (Monsters)
         MonsterFormation.cs         Table 123 (Monster Formations)
         Unit.cs                     Table 260 (Friendly Characters) and 270 (Party Talk)
- ./Resources
- ./ViewModels
-        MainWindowViewModel.cs      ViewModel for MainWindow
-        RelayCommand.cs             ICommand implementation for ViewModel
-
+ ./Resources                        Embedded Resources, such as images
+ ./ViewModels                       ViewModels used by the Views
+ ./Views                            Views
 
 TO DO:
  * Add map image to map lists; show spawn directly on the map
- * Group spawns by the same spawn rule (always spawn together)
  * Add details for "Flag"s in spawn rules; possibly display rules directly as a tree
  * Add detail window for automatic changes
  * Add ability to change all default values of all tables
  * Finally add string editor
  * Move all file-writing operations to a single location to remove duplicate code
- * Seperate view into multiple control views
 
 The MIT Licence (MIT)
 Copyright (c) 2016 enceler

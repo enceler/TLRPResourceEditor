@@ -1,10 +1,10 @@
-﻿using PropertyChanged;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Windows;
+using System.Windows.Forms;
+using PropertyChanged;
 using TLRPResourceEditor.Data;
+using TLRPResourceEditor.Properties;
 
 namespace TLRPResourceEditor.Models
 {
@@ -71,6 +71,7 @@ namespace TLRPResourceEditor.Models
         public static void LoadData()
         {
             Monsters.Clear();
+            //Monsters = new ObservableCollection<Monster>();
             var data = File.ReadAllBytes(Files.BattleFile);
             for (var i = 0; i < 2344; i++)
             {
@@ -83,24 +84,24 @@ namespace TLRPResourceEditor.Models
                 var equip1 = "[None]";
                 var equip2 = "[None]";
 
-                var equip1id = BitConverter.ToInt16(data, 108 + insideOffset);
-                var equip1idOriginal = equip1id;
-                if (equip1id >= 0)
+                var equip1Id = BitConverter.ToInt16(data, 108 + insideOffset);
+                var equip1IdOriginal = equip1Id;
+                if (equip1Id >= 0)
                 {
                     var id = BitConverter.ToInt16(data, 108 + insideOffset);
                     if (id < Names.EquipmentToName.Count && Names.EquipmentToName[id] < Names.ItemNames.Count)
-                        equip1 = $"[{equip1idOriginal}] {Names.ItemNames[Names.EquipmentToName[BitConverter.ToInt16(data, 108 + insideOffset)]]}";
+                        equip1 = $"[{equip1IdOriginal}] {Names.ItemNames[Names.EquipmentToName[BitConverter.ToInt16(data, 108 + insideOffset)]]}";
                     else
                         equip1 = "NAME NOT FOUND:" + id;
                 }
 
-                var equip2id = BitConverter.ToInt16(data, 114 + insideOffset);
-                var equip2idOriginal = equip2id;
-                if (equip2id >= 0)
+                var equip2Id = BitConverter.ToInt16(data, 114 + insideOffset);
+                var equip2IdOriginal = equip2Id;
+                if (equip2Id >= 0)
                 {
                     var id = BitConverter.ToInt16(data, 114 + insideOffset);
                     if (id < Names.EquipmentToName.Count && Names.EquipmentToName[id] < Names.ItemNames.Count)
-                        equip2 = Names.ItemNames[Names.EquipmentToName[BitConverter.ToInt16(data, 114 + insideOffset)]];
+                        equip2 = $"[{equip1IdOriginal}] {Names.ItemNames[Names.EquipmentToName[BitConverter.ToInt16(data, 114 + insideOffset)]]}";
                     else
                         equip1 = "NAME NOT FOUND:" + id;
 
@@ -112,8 +113,8 @@ namespace TLRPResourceEditor.Models
                     Name                = name,
                     EquipmentMain       = equip1,
                     EquipmentOff        = equip2,
-                    Equipment1Id        = equip1idOriginal,
-                    Equipment2Id        = equip2idOriginal,
+                    Equipment1Id        = equip1IdOriginal,
+                    Equipment2Id        = equip2IdOriginal,
                     Rare                = BitConverter.ToBoolean(data, 4 + insideOffset),
                     Boss                = BitConverter.ToBoolean(data, 5 + insideOffset),
                     HPBase              = BitConverter.ToInt32(data, 12 + insideOffset),
@@ -163,14 +164,14 @@ namespace TLRPResourceEditor.Models
                     if (length == 4)
                         stream.Write(BitConverter.GetBytes(value), 0, 4);
                     else if (length == 2)
-                        stream.Write(new byte[] { (byte)value, (byte)(value >> 8) }, 0, 2);
+                        stream.Write(new[] { (byte)value, (byte)(value >> 8) }, 0, 2);
                     else
-                        stream.Write(new byte[] { (byte)value }, 0, 1);
+                        stream.Write(buffer: new[] { (byte)value }, offset: 0, count: 1);
                 }
             }
-            catch (IOException x)
+            catch (IOException)
             {
-                MessageBox.Show("Could not write to the game files. Make sure the game isn't running and that the files can be overwritten.");
+                MessageBox.Show(Resources.FileCannotBeOverwritten);
             }
             catch (Exception x)
             {

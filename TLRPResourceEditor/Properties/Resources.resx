@@ -114,4 +114,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MainWindowViewModel_EnterNewPath_" xml:space="preserve">
+    <value>Select the The Last Remnant folder.
+Usually found at 
+..\Steam\SteamApps\common\The Last Remnant</value>
+  </data>
+  <data name="FileCannotBeOverwritten" xml:space="preserve">
+    <value>Could not write to the game files. Make sure the game isn't running and that the files can be overwritten.</value>
+  </data>
 </root>

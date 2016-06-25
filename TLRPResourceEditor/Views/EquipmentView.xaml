@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="TLRPResourceEditor.Views.EquipmentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TLRPResourceEditor.Views"
+             xmlns:viewModels="clr-namespace:TLRPResourceEditor.ViewModels"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             Height="705" Width="1010" BorderBrush="Red">
+    <UserControl.DataContext>
+        <viewModels:EquipmentViewModel/>
+    </UserControl.DataContext>
+    <Grid Background="#FFE5E5E5">
+        <ListBox x:Name="EquipmentList"  HorizontalAlignment="Left" Height="642" Margin="10,55,0,0" VerticalAlignment="Top" Width="206" ItemsSource="{Binding EquipmentListView}" SelectedItem="{Binding SelectedEquipment}" BorderThickness="1" />
+        <TextBox HorizontalAlignment="Left" Height="26" Margin="10,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" controls:TextBoxHelper.Watermark="Search for..." controls:TextBoxHelper.ClearTextButton="True" Text="{Binding EquipmentFilterStringString, UpdateSourceTrigger=PropertyChanged}"/>
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="178" Margin="234,55,0,0"  VerticalAlignment="Top" Width="766" Background="White">
+            <Grid>
+                <Rectangle Height="1" Margin="0,25,0,0" Stroke="#FF307BE8" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                <Label Content="Item Stats" VerticalAlignment="Top" Margin="0,0,303,0" FontWeight="Bold" />
+
+                <Label Content="Attack Attribute" HorizontalAlignment="Left" Margin="22,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="113" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="133,41,527,109" Width="100" Value="{Binding SelectedEquipment.AttackAttribute}" IsEnabled="False"/>
+
+                <Label Content="Burden" HorizontalAlignment="Left" Margin="22,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="113" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="135,74,529,76" Width="100" Value="{Binding SelectedEquipment.Burden}"/>
+
+                <Label Content="Attack" HorizontalAlignment="Left" Margin="22,108,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="113" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="135,108,529,42" Width="100" Value="{Binding SelectedEquipment.Attack}"/>
+
+                <Label Content="Mystic Attack" HorizontalAlignment="Left" Margin="22,140,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="113" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="135,140,529,10" Width="100" Value="{Binding SelectedEquipment.MysticAttack}"/>
+                <Label Content="Evasion (%)" HorizontalAlignment="Left" Margin="290,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="112" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="402,41,262,109" Width="100" Value="{Binding SelectedEquipment.Evasion}"/>
+                <Label Content="Mystic Evasion (%)" HorizontalAlignment="Left" Margin="290,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="112" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="402,74,262,76" Width="100" Value="{Binding SelectedEquipment.MysticEvasion}"/>
+                <Label Content="Defense" HorizontalAlignment="Left" Margin="290,108,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="112" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="402,108,262,42" Width="100" Value="{Binding SelectedEquipment.Defense}"/>
+                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="402,140,262,10" Width="100" Value="{Binding SelectedEquipment.MysticDefense}"/>
+                <Label Content="Mystic Defense" HorizontalAlignment="Left" Margin="290,140,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="112" HorizontalContentAlignment="Right"/>
+                <Label Content="Crit Hit (%)" HorizontalAlignment="Left" Margin="537,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="113" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="650,41,14,109" Width="100" Value="{Binding SelectedEquipment.CritOffenseOnRate}"/>
+                <Label Content="Crit Hit Auto (%)" HorizontalAlignment="Left" Margin="537,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="113" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="650,74,14,76" Width="100" Value="{Binding SelectedEquipment.CritOffenseSucccessRate}"/>
+                <Label Content="Crit Def (%)" HorizontalAlignment="Left" Margin="537,108,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="113" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="650,108,14,42" Width="100" Value="{Binding SelectedEquipment.CritDefenseOnRate}"/>
+                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="650,140,14,10" Width="100" Value="{Binding SelectedEquipment.CritDefenseSuccessRate}"/>
+                <Label Content="Crit Def Auto (%)" HorizontalAlignment="Left" Margin="537,140,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="113" HorizontalContentAlignment="Right"/>
+            </Grid>
+        </Border>
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="437" Margin="234,260,0,0"  VerticalAlignment="Top" Width="300" Background="White" >
+            <Grid>
+                <Rectangle Height="1" Margin="0,25,0,0" Stroke="Gray" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                <Label Content="Used By Enemies" VerticalAlignment="Top" Margin="0,0,0,0" FontWeight="Bold" Foreground="Gray" />
+
+            </Grid>
+        </Border>
+        <Label Content="{Binding SelectedLanguage}" HorizontalAlignment="Left" Margin="234,27,0,0" VerticalAlignment="Top" Width="156" Height="28" FontWeight="Bold"/>
+    </Grid>
+
+</UserControl>

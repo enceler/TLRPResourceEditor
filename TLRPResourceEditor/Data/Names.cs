@@ -17,7 +17,7 @@ namespace TLRPResourceEditor.Data
         public static List<int> CharacterToName { get; set; }
         public static List<int> CharacterToClass { get; set; }
         public static List<int> EquipmentToName { get; set; }
-        public static List<int> Id259to262 { get; set; }
+        public static List<int> Id259To262 { get; set; }
         public static List<int> Id262To36 { get; set; }
 
         /// <summary>
@@ -27,14 +27,14 @@ namespace TLRPResourceEditor.Data
         {
             var data = File.ReadAllBytes(Files.BattleFile);
 
-            /// ID mappings
+            // ID mappings
             CharacterToClass = ReadMappingCharacterToClass(data);
             CharacterToName = ReadMappingCharacterToName(data);
             Id262To36 = ReadMappingCharacterToName(data);
-            Id259to262 = ReadMappingEnemyFormationToName(data);
+            Id259To262 = ReadMappingEnemyFormationToName(data);
             EquipmentToName = ReadMappingEquipmentToName(data);
 
-            /// Data
+            // Data
             ClassNames = ReadClassNames(data);
             ItemNames = ReadItemNames(data);
             UnionNames = ReadEnemyUnionNames(data);
@@ -78,12 +78,12 @@ namespace TLRPResourceEditor.Data
         /// <returns></returns>
         private static List<int> ReadMappingEnemyFormationToName(byte[] data)
         {
-            var id259to262 = new List<int>();
+            var id259To262 = new List<int>();
             for (var i = 0; i < 2344; i++)
             {
-                id259to262.Add(BitConverter.ToInt16(data, Files.TableOffsets[259] + (i * 208)));
+                id259To262.Add(BitConverter.ToInt16(data, Files.TableOffsets[259] + (i * 208)));
             }
-            return id259to262;
+            return id259To262;
         }
 
         /// <summary>

@@ -1,23 +1,26 @@
-﻿using PropertyChanged;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Windows;
+using System.Windows.Forms;
+using PropertyChanged;
 using TLRPResourceEditor.Data;
+using TLRPResourceEditor.Properties;
 
 namespace TLRPResourceEditor.Models
 {
     [ImplementPropertyChanged]
     public class Map
     {
-        private static List<SpawnRule> temporarySpawnRules;
-        private static string temporaryFileName;
+        private static List<SpawnRule> _temporarySpawnRules;
+        private static string _temporaryFileName;
 
         public static List<Map> Maps { get; set; }
 
         public ObservableCollection<SpawnEntry> Spawns { get; set; }
         public string Name { get; set; }
+
+        public Dictionary<int, List<SpawnEntry>> OrderedSpawns { get; set; }
 
         public static void LoadData()
         {
@@ -26,19 +29,20 @@ namespace TLRPResourceEditor.Models
             foreach (var entry in Files.MapFiles)
             {
                 var data          = File.ReadAllBytes(entry.MapFile);
-                temporaryFileName = entry.MapFile;
+                _temporaryFileName = entry.MapFile;
                 var offsets       = FindEnemeyOffsets(data);
                 var dataOffset    = offsets.Item1;
                 var dataSize      = offsets.Item2;
                 var innerOffset   = dataOffset + 0x148;
-                var nameoffset    = BitConverter.ToInt32(data, dataOffset + 0x34) + 0x20;
+                //var nameoffset    = BitConverter.ToInt32(data, dataOffset + 0x34) + 0x20;
                 var ruleoffset    = BitConverter.ToInt32(data, dataOffset + 0x3C) + 0x20;
-                var enemiesoffset = BitConverter.ToInt32(data, dataOffset + 0x2C) + 0x20;
+                //var enemiesoffset = BitConverter.ToInt32(data, dataOffset + 0x2C) + 0x20;
 
                 var map = new Map
                 {
                     Spawns = new ObservableCollection<SpawnEntry>(),
                     Name = entry.MapName,
+                    OrderedSpawns = new Dictionary<int, List<SpawnEntry>>(),
                 };
 
                 for (var i = 0; i < 255; i++)
@@ -48,8 +52,8 @@ namespace TLRPResourceEditor.Models
 
                     var nameId    = BitConverter.ToInt32(data, innerOffset + 24);
                     var spawnrule = BitConverter.ToInt32(data, innerOffset + 12);
-                    var location  = BitConverter.ToInt32(data, innerOffset + 16);
-                    var model     = BitConverter.ToInt32(data, innerOffset + 20);
+                    //var location  = BitConverter.ToInt32(data, innerOffset + 16);
+                    //var model     = BitConverter.ToInt32(data, innerOffset + 20);
 
                     if (nameId >= 0)
                     {
@@ -60,7 +64,18 @@ namespace TLRPResourceEditor.Models
                             Rules = new List<SpawnRule>(),
                             Offset = innerOffset,
                             FileName = entry.MapFile,
+                            SpawnRuleId = spawnrule,
                         };
+
+                        if (map.OrderedSpawns.ContainsKey(spawnrule))
+                        {
+                            map.OrderedSpawns[spawnrule].Add((spawnEntry));
+                        }
+                        else
+                        {
+                            map.OrderedSpawns[spawnrule] = new List<SpawnEntry> {spawnEntry};
+                        }
+
                         foreach (var formation in MonsterFormation.MonsterFormations)
                         {
                             if (formation.Id == nameId)
@@ -68,9 +83,9 @@ namespace TLRPResourceEditor.Models
                                 spawnEntry.Name = $"[{nameId}] {formation.Name}";
                             }
                         }
-                        temporarySpawnRules = new List<SpawnRule>();
+                        _temporarySpawnRules = new List<SpawnRule>();
                         spawnEntry.SpawnRuleText = ParseSpawnRule(data, dataOffset + ruleoffset + spawnrule, 0);
-                        spawnEntry.Rules = temporarySpawnRules;
+                        spawnEntry.Rules = _temporarySpawnRules;
                         map.Spawns.Add(spawnEntry);
                     }
 
@@ -119,10 +134,10 @@ namespace TLRPResourceEditor.Models
                 else if (op == 3)
                     rule.ComparisonOperator = ">";
                 rule.Offset = offset + (line * 8);
-                rule.FileName = temporaryFileName;
+                rule.FileName = _temporaryFileName;
 
                 if (!rule.Type.StartsWith("Flag"))
-                    temporarySpawnRules.Add(rule);
+                    _temporarySpawnRules.Add(rule);
 
                 return $" {rule.Type} {rule.ComparisonOperator} {rule.Value} ";
             }
@@ -130,32 +145,32 @@ namespace TLRPResourceEditor.Models
 
         private static Tuple<int, int> FindEnemeyOffsets(byte[] data)
         {
-            var NameCount = BitConverter.ToInt32(data, 25);
-            var NameOffset = BitConverter.ToInt32(data, 29);
-            var Names = new List<string>();
-            for (var i = 0; i < NameCount; i++)
+            var nameCount = BitConverter.ToInt32(data, 25);
+            var nameOffset = BitConverter.ToInt32(data, 29);
+            var names = new List<string>();
+            for (var i = 0; i < nameCount; i++)
             {
-                var length = BitConverter.ToInt32(data, NameOffset);
-                if (length < 0 || length > data.Length + NameOffset)
+                var length = BitConverter.ToInt32(data, nameOffset);
+                if (length < 0 || length > data.Length + nameOffset)
                     break;
 
-                Names.Add(System.Text.Encoding.UTF8.GetString(data, NameOffset + 4, length - 1));
-                NameOffset += length + 12;
+                names.Add(System.Text.Encoding.UTF8.GetString(data, nameOffset + 4, length - 1));
+                nameOffset += length + 12;
             }
 
 
-            var ExportCount = BitConverter.ToInt32(data, 33);
-            var ExportOffset = BitConverter.ToInt32(data, 37);
-            for (var i = 0; i < ExportCount; i++)
+            var exportCount = BitConverter.ToInt32(data, 33);
+            var exportOffset = BitConverter.ToInt32(data, 37);
+            for (var i = 0; i < exportCount; i++)
             {
                 var name = "UNKNOWN";
-                var nameId = BitConverter.ToInt32(data, ExportOffset + 12);
-                if (nameId < Names.Count)
-                    name = Names[nameId];
+                var nameId = BitConverter.ToInt32(data, exportOffset + 12);
+                if (nameId < names.Count)
+                    name = names[nameId];
 
-                var additionalFields = BitConverter.ToInt32(data, ExportOffset + 44);
-                var dataOffset = BitConverter.ToInt32(data, ExportOffset + 36);
-                var dataSize = BitConverter.ToInt32(data, ExportOffset + 32);
+                var additionalFields = BitConverter.ToInt32(data, exportOffset + 44);
+                var dataOffset = BitConverter.ToInt32(data, exportOffset + 36);
+                var dataSize = BitConverter.ToInt32(data, exportOffset + 32);
 
                 if (name.ToLower().Contains("ene_set"))
                 {
@@ -164,20 +179,20 @@ namespace TLRPResourceEditor.Models
 
                 if (dataSize < 1)
                 {
-                    ExportOffset += (additionalFields * 4) + 72;
+                    exportOffset += (additionalFields * 4) + 72;
                     continue;
                 }
 
-                var type = BitConverter.ToInt32(data, ExportOffset);
-                var parent = BitConverter.ToInt32(data, ExportOffset + 4);
+                //var type = BitConverter.ToInt32(data, exportOffset);
+                //var parent = BitConverter.ToInt32(data, exportOffset + 4);
 
                 if (dataSize > data.Length)
                 {
-                    ExportOffset += (additionalFields * 4) + 72;
+                    exportOffset += (additionalFields * 4) + 72;
                     continue;
                 }
 
-                ExportOffset += (additionalFields * 4) + 72;
+                exportOffset += (additionalFields * 4) + 72;
             }
             return null;
         }
@@ -191,14 +206,15 @@ namespace TLRPResourceEditor.Models
     [ImplementPropertyChanged]
     public class SpawnEntry
     {
-        private int nameId;
+        private int _nameId;
 
-        public int NameId            { get { return nameId; } set { ChangeStat(24, value); nameId = value; } }
+        public int NameId            { get { return _nameId; } set { ChangeStat(24, value); _nameId = value; } }
         public string FileName       { get; set; }
         public int Offset            { get; set; }
         public string Name           { get; set; }
         public List<SpawnRule> Rules { get; set; }
         public string SpawnRuleText  { get; set; }
+        public int SpawnRuleId       { get; set; }
 
         private void ChangeStat(int offset, int value)
         {
@@ -213,9 +229,9 @@ namespace TLRPResourceEditor.Models
                     stream.Write(BitConverter.GetBytes(value), 0, 4);
                 }
             }
-            catch (IOException x)
+            catch (IOException)
             {
-                MessageBox.Show("Could not write to the game files. Make sure the game isn't running and that the files can be overwritten.");
+                MessageBox.Show(Resources.FileCannotBeOverwritten);
             }
             catch (Exception x)
             {
@@ -230,16 +246,23 @@ namespace TLRPResourceEditor.Models
     }
 
     [ImplementPropertyChanged]
+    public class OrderedSpawnRule
+    {
+        public int SpawnId { get; set; }
+        public List<SpawnRule> Entries { get; set; }
+    }
+
+    [ImplementPropertyChanged]
     public class SpawnRule
     {
-        private int valueValue;
+        private int _valueValue;
 
         public string FileName           { get; set; }
         public int Offset                { get; set; }
-        public int Value                 { get { return valueValue; } set { ChangeStat(20, value); valueValue = value; } }
+        public int Value                 { get { return _valueValue; } set { ChangeStat(20, value); _valueValue = value; } }
         public string Type               { get; set; }
         public string ComparisonOperator { get; set; }
-        public string Description        { get { return $"{Type} {ComparisonOperator}"; } }
+        public string Description        => $"{Type} {ComparisonOperator}";
 
         private void ChangeStat(int offset, int value)
         {
@@ -254,9 +277,9 @@ namespace TLRPResourceEditor.Models
                     stream.Write(BitConverter.GetBytes(value), 0, 4);
                 }
             }
-            catch (IOException x)
+            catch (IOException)
             {
-                MessageBox.Show("Could not write to the game files. Make sure the game isn't running and that the files can be overwritten.");
+                MessageBox.Show(Resources.FileCannotBeOverwritten);
             }
             catch (Exception x)
             {

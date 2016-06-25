@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="TLRPResourceEditor.Views.UnitView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TLRPResourceEditor.Views"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:viewModels="clr-namespace:TLRPResourceEditor.ViewModels"
+             mc:Ignorable="d" 
+             Height="705" Width="1010" BorderBrush="Red">
+    <UserControl.DataContext>
+        <viewModels:UnitViewModel/>
+    </UserControl.DataContext>
+    
+    <Grid Background="#FFE5E5E5">
+        <ListBox x:Name="UnitList" HorizontalAlignment="Left" Height="642" Margin="10,55,0,0" VerticalAlignment="Top" Width="206" ItemsSource="{Binding UnitView}" SelectedItem="{Binding SelectedUnit}" BorderThickness="1"/>
+        <TextBox HorizontalAlignment="Left" Height="24" Margin="10,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" controls:TextBoxHelper.Watermark="Search for..." controls:TextBoxHelper.ClearTextButton="True" Text="{Binding UnitFilterString, UpdateSourceTrigger=PropertyChanged}"/>
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="178" Margin="234,55,0,0" VerticalAlignment="Top" Width="766" Background="White">
+            <Grid>
+                <Rectangle Height="1" Margin="0,25,0,0" Stroke="#FF307BE8" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                <Label Content="Base Stats" VerticalAlignment="Top" Margin="0,0,303,0" FontWeight="Bold" />
+
+                <Label Content="HP" HorizontalAlignment="Left" Margin="22,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="113" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="9999999" Interval="1" Height="20" Margin="133,41,527,109" Width="100" Value="{Binding SelectedUnit.BaseHP}"/>
+
+                <Label Content="AP" HorizontalAlignment="Left" Margin="22,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="113" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="999999" Interval="1" Height="20" Margin="135,74,529,76" Width="100" Value="{Binding SelectedUnit.BaseAP}"/>
+
+                <Label Content="Strength" HorizontalAlignment="Left" Margin="22,108,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="113" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="135,108,529,42" Width="100" Value="{Binding SelectedUnit.BaseStr}"/>
+
+                <Label Content="Intellect" HorizontalAlignment="Left" Margin="22,140,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="113" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="135,140,529,10" Width="100" Value="{Binding SelectedUnit.BaseInt}"/>
+                <Label Content="Speed" HorizontalAlignment="Left" Margin="346,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="112" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="458,41,206,109" Width="100" Value="{Binding SelectedUnit.BaseSpd}"/>
+                <Label Content="Unique" HorizontalAlignment="Left" Margin="346,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="112" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="458,74,206,76" Width="100" Value="{Binding SelectedUnit.BaseUnq}"/>
+                <Label Content="Tension" HorizontalAlignment="Left" Margin="346,108,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="112" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="458,108,206,42" Width="100" Value="{Binding SelectedUnit.BaseTension}"/>
+                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="458,140,206,10" Width="100" Value="{Binding SelectedUnit.BaseRank}"/>
+                <Label Content="Rank" HorizontalAlignment="Left" Margin="346,140,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.026,-0.923" Foreground="#FF3F8ECF" Width="112" HorizontalContentAlignment="Right"/>
+                <controls:NumericUpDown Minimum="0" Maximum="999" Interval="1" Height="20" Margin="249,74,424,76" Value="{Binding SelectedUnit.BaseAPCharge}"/>
+            </Grid>
+        </Border>
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="178" Margin="234,260,0,0" VerticalAlignment="Top" Width="766" Background="White">
+            <Grid>
+                <Rectangle Height="1" Margin="0,25,0,0" Stroke="#FF307BE8" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                <Label Content="Battle Rank Development" VerticalAlignment="Top" Margin="0,0,303,0" FontWeight="Bold" />
+                <Label Content="Learn Item Art" HorizontalAlignment="Left" Margin="22,43,0,0" VerticalAlignment="Top" Width="100"/>
+                <ComboBox x:Name="UnitItemArt" HorizontalAlignment="Left" Margin="122,42,0,0" VerticalAlignment="Top" Width="177" ItemsSource="{Binding ItemArtsList}" SelectedItem="{Binding SelectedItemArts}"/>
+                <Label Content="at BR" HorizontalAlignment="Left" Margin="304,43,0,0" VerticalAlignment="Top" Width="50"/>
+                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="365,43,308,107" Value="{Binding SelectedUnit.PartyTalkSelect.ItemBR}"/>
+                <Label Content="Learn Mystic Art" HorizontalAlignment="Left" Margin="22,87,0,0" VerticalAlignment="Top" Width="100"/>
+                <ComboBox x:Name="UnitMysticArt" HorizontalAlignment="Left" Margin="122,86,0,0" VerticalAlignment="Top" Width="177"  ItemsSource="{Binding MysticArtsList}" SelectedItem="{Binding SelectedMysticArts}"/>
+                <Label Content="at BR" HorizontalAlignment="Left" Margin="304,87,0,0" VerticalAlignment="Top" Width="50"/>
+                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="365,87,308,63" Value="{Binding SelectedUnit.PartyTalkSelect.MysticBR}"/>
+            </Grid>
+        </Border>
+        <Label Content="{Binding SelectedLanguage}" HorizontalAlignment="Left" Margin="234,26,0,0" VerticalAlignment="Top" Width="156" Height="28" FontWeight="Bold"/>
+    </Grid>
+
+</UserControl>
