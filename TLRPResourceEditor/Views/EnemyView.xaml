@@ -48,7 +48,7 @@
                 <Rectangle Height="1" Margin="0,25,0,0" Stroke="#FF307BE8" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
                 <Label Content="Monster Formation" VerticalAlignment="Top" Margin="0,0,303,0" FontWeight="Bold" />
                 <Label Content="Enemies" HorizontalAlignment="Left" Margin="4,31,0,0" VerticalAlignment="Top" Foreground="#FF3F8ECF"/>
-                <ListBox x:Name="Monsterlist" HorizontalAlignment="Left" Height="139" Margin="10,57,0,0" VerticalAlignment="Top" Width="250" BorderThickness="1" ItemsSource="{Binding SelectedMonsterFormation.MonsterList}" SelectedItem="{Binding SelectedMonster}" SelectedIndex="{Binding MonsterListSelection}" SelectionChanged="CloseFlyout"/>
+                <ListBox x:Name="Monsterlist" HorizontalAlignment="Left" Height="129" Margin="10,57,0,0" VerticalAlignment="Top" Width="250" BorderThickness="1" ItemsSource="{Binding SelectedMonsterFormation.MonsterList}" SelectedItem="{Binding SelectedMonster}" SelectedIndex="{Binding MonsterListSelection}" SelectionChanged="CloseFlyout"/>
                 <Label Content="Add a new unit to the union" HorizontalAlignment="Left" Margin="277,57,0,0" VerticalAlignment="Top" Foreground="#FF3F8ECF"/>
                 <Label Content="(up to a maximum of 5 units)" HorizontalAlignment="Left" Margin="277,71,0,0" VerticalAlignment="Top" FontStyle="Italic" Foreground="#FF3F8ECF"/>
                 <Label Content="Remove selected unit from union" HorizontalAlignment="Left" Margin="277,99,0,0" VerticalAlignment="Top" Foreground="#FF3F8ECF"/>
@@ -57,53 +57,94 @@
                 <Button Content="o" HorizontalAlignment="Left" Margin="466,66,0,0" VerticalAlignment="Top" Width="28" Foreground="#FF3F8ECF" Command="{Binding AddEnemyToFormation}"/>
                 <Button Content="o" HorizontalAlignment="Left" Margin="466,108,0,0" VerticalAlignment="Top" Width="28" Foreground="#FF3F8ECF" Command="{Binding RemoveEnemyFromFormation}"/>
                 <Button x:Name="OpenMonsterChangeFlyout" Content="o" HorizontalAlignment="Left" Margin="466,150,0,0" VerticalAlignment="Top" Width="28" Foreground="#FF3F8ECF" Click="MonsterTypeFlyoutOpen" IsEnabled="False"/>
+                <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="255" Margin="10,186,0,-1" VerticalAlignment="Top" Width="729" BorderBrush="#FF0042A0" BorderThickness="0,1,0,0">
+                    <TabItem Header="Stats">
+                        <Grid Background="White">
+                            <Label Content="HP (Base)" HorizontalAlignment="Left" Margin="2,7,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
+                            <Label Content="AP (Base)" HorizontalAlignment="Left" Margin="2,37,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
+                            <Label Content="Strength (Base)" HorizontalAlignment="Left" Margin="2,67,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
+                            <Label Content="Intellect (Base)" HorizontalAlignment="Left" Margin="2,97,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
+                            <Label Content="Speed (Base)" HorizontalAlignment="Left" Margin="2,126,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
+                            <Label Content="Unique (Base)" HorizontalAlignment="Left" Margin="2,157,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
+                            <Label Content="Tension (Base)" HorizontalAlignment="Left" Margin="2,188,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="9999999" Interval="1" Margin="103,7,522,192" Width="100" Value="{Binding SelectedMonster.HPBase}" HasDecimals="False"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="999999" Interval="1" Height="20" Margin="103,37,522,162" Width="100" Value="{Binding SelectedMonster.APBase}" HasDecimals="False"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="261" Interval="1" Height="20" Margin="103,67,522,132" Width="100" Value="{Binding SelectedMonster.StrBase}"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="261" Interval="1" Height="20" Margin="103,97,522,102" Width="100" Value="{Binding SelectedMonster.IntBase}"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="261" Interval="1" Height="20" Margin="103,127,522,72" Width="100" Value="{Binding SelectedMonster.SpdBase}"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="261" Interval="1" Height="20" Margin="103,157,522,42" Width="100" Value="{Binding SelectedMonster.UniqueBase}"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="261" Interval="1" Height="20" Margin="103,188,522,11" Width="100" Value="{Binding SelectedMonster.TensionBase}"/>
 
-                <Label Content="Selected enemy" VerticalAlignment="Top" Margin="10,199,293,0" FontWeight="Bold" />
-                <Rectangle Height="1" Margin="16,225,23,0" Stroke="#FF307BE8" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
-                <Label Content="HP (Base)" HorizontalAlignment="Left" Margin="25,230,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
-                <Label Content="AP (Base)" HorizontalAlignment="Left" Margin="25,260,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
-                <Label Content="Strength (Base)" HorizontalAlignment="Left" Margin="25,290,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
-                <Label Content="Intellect (Base)" HorizontalAlignment="Left" Margin="25,320,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
-                <Label Content="Speed (Base)" HorizontalAlignment="Left" Margin="25,349,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
-                <Label Content="Unique (Base)" HorizontalAlignment="Left" Margin="25,380,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
-                <Label Content="Tension (Base)" HorizontalAlignment="Left" Margin="25,411,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
-                <controls:NumericUpDown Minimum="0" Maximum="9999999" Interval="1" Margin="125,230,539,184" Width="100" Value="{Binding SelectedMonster.HPBase}" HasDecimals="False"/>
-                <controls:NumericUpDown Minimum="0" Maximum="999999" Interval="1" Height="20" Margin="125,260,539,154" Width="100" Value="{Binding SelectedMonster.APBase}" HasDecimals="False"/>
-                <controls:NumericUpDown Minimum="0" Maximum="261" Interval="1" Height="20" Margin="125,290,539,125" Width="100" Value="{Binding SelectedMonster.StrBase}"/>
-                <controls:NumericUpDown Minimum="0" Maximum="261" Interval="1" Height="20" Margin="125,320,539,94" Width="100" Value="{Binding SelectedMonster.IntBase}"/>
-                <controls:NumericUpDown Minimum="0" Maximum="261" Interval="1" Height="20" Margin="125,350,539,64" Width="100" Value="{Binding SelectedMonster.SpdBase}"/>
-                <controls:NumericUpDown Minimum="0" Maximum="261" Interval="1" Height="20" Margin="125,380,539,34" Width="100" Value="{Binding SelectedMonster.UniqueBase}"/>
-                <controls:NumericUpDown Minimum="0" Maximum="261" Interval="1" Height="20" Margin="125,411,539,3" Width="100" Value="{Binding SelectedMonster.TensionBase}"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="324,7,320,192" Value="{Binding SelectedMonster.SlashDefense}"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="324,37,320,162" Value="{Binding SelectedMonster.BludgeonDefense}"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="324,67,320,132" Value="{Binding SelectedMonster.MaulDefense}"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="478,7,166,192" Value="{Binding SelectedMonster.PierceDefense}"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="478,37,166,162" Value="{Binding SelectedMonster.FlameDefense}"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="478,67,166,132" Value="{Binding SelectedMonster.ThunderDefense}"/>
+                            <Label Content="Slash Def:" HorizontalAlignment="Left" Margin="238,7,0,0" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right"/>
+                            <Label Content="Bludgeon Def:" HorizontalAlignment="Left" Margin="238,37,0,0" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right"/>
+                            <Label Content="Maul Def:" HorizontalAlignment="Left" Margin="238,67,0,0" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right"/>
+                            <Label Content="Pierce Def:" HorizontalAlignment="Left" Margin="403,7,0,0" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Right"/>
+                            <Label Content="Flame Def:" HorizontalAlignment="Left" Margin="403,37,0,0" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Right"/>
+                            <Label Content="Thunder Def:" HorizontalAlignment="Left" Margin="403,67,0,0" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Right"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="638,7,6,192" Value="{Binding SelectedMonster.FrostDefense}"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="638,37,6,162" Value="{Binding SelectedMonster.AcidDefense}"/>
+                            <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="638,67,6,132" Value="{Binding SelectedMonster.VenomDefense}"/>
+                            <Label Content="Frost Def:" HorizontalAlignment="Left" Margin="558,7,0,0" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Right"/>
+                            <Label Content="Acid Def:" HorizontalAlignment="Left" Margin="558,37,0,0" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Right"/>
+                            <Label Content="Venom Def:" HorizontalAlignment="Left" Margin="558,67,0,0" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Right"/>
+                            <Label Content="Mainhand:" HorizontalAlignment="Left" Margin="277,128,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
+                            <Label Content="Offhand:" HorizontalAlignment="Left" Margin="277,159,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" Margin="377,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" IsReadOnly="True" Text="{Binding SelectedMonster.EquipmentMain}"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" Margin="377,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" IsReadOnly="True" Text="{Binding SelectedMonster.EquipmentOff}"/>
+                            <Button x:Name="EquipMain" Content="o" HorizontalAlignment="Left" Margin="588,127,0,0" VerticalAlignment="Top" Width="26" Foreground="#FF3F8ECF" Height="26" Click="EquipmentChangeMainhandFlyoutOpen"/>
+                            <Button x:Name="EquipOff" Content="o" HorizontalAlignment="Left" Margin="588,158,0,0" VerticalAlignment="Top" Width="26" Foreground="#FF3F8ECF" Height="26" Click="EquipmentChangeOffhandFlyoutOpen"/>
 
-                <controls:NumericUpDown Minimum="0" Maximum="255" Interval="1" Height="20" Margin="347,230,338,184" Value="{Binding SelectedMonster.SlashDefense}"/>
-                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="347,260,338,154" Value="{Binding SelectedMonster.BludgeonDefense}"/>
-                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="347,290,338,124" Value="{Binding SelectedMonster.MaulDefense}"/>
-                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="501,230,184,184" Value="{Binding SelectedMonster.PierceDefense}"/>
-                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="501,260,184,154" Value="{Binding SelectedMonster.FlameDefense}"/>
-                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="501,290,184,124" Value="{Binding SelectedMonster.ThunderDefense}"/>
-                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="662,230,23,184" Value="{Binding SelectedMonster.FrostDefense}"/>
-                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="662,260,23,154" Value="{Binding SelectedMonster.AcidDefense}"/>
-                <controls:NumericUpDown Minimum="0" Maximum="100" Interval="1" Height="20" Margin="662,290,23,124" Value="{Binding SelectedMonster.VenomDefense}"/>
-                <Label Content="Slash Def:" HorizontalAlignment="Left" Margin="261,230,0,0" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right"/>
-                <Label Content="Bludgeon Def:" HorizontalAlignment="Left" Margin="261,260,0,0" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right"/>
-                <Label Content="Maul Def:" HorizontalAlignment="Left" Margin="261,290,0,0" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right"/>
-                <Label Content="Pierce Def:" HorizontalAlignment="Left" Margin="426,230,0,0" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Right"/>
-                <Label Content="Flame Def:" HorizontalAlignment="Left" Margin="426,260,0,0" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Right"/>
-                <Label Content="Thunder Def:" HorizontalAlignment="Left" Margin="426,290,0,0" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Right"/>
-                <Label Content="Frost Def:" HorizontalAlignment="Left" Margin="582,230,0,0" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Right"/>
-                <Label Content="Acid Def:" HorizontalAlignment="Left" Margin="582,260,0,0" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Right"/>
-                <Label Content="Venom Def:" HorizontalAlignment="Left" Margin="582,290,0,0" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Right"/>
-                <Label Content="Mainhand:" HorizontalAlignment="Left" Margin="301,350,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
-                <Label Content="Offhand:" HorizontalAlignment="Left" Margin="301,381,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="401,349,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" IsReadOnly="True" Text="{Binding SelectedMonster.EquipmentMain}"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="401,380,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" IsReadOnly="True" Text="{Binding SelectedMonster.EquipmentOff}"/>
-                <Button x:Name="EquipMain" Content="o" HorizontalAlignment="Left" Margin="612,349,0,0" VerticalAlignment="Top" Width="26" Foreground="#FF3F8ECF" Height="26" Click="EquipmentChangeMainhandFlyoutOpen"/>
-                <Button x:Name="EquipOff" Content="o" HorizontalAlignment="Left" Margin="612,380,0,0" VerticalAlignment="Top" Width="26" Foreground="#FF3F8ECF" Height="26" Click="EquipmentChangeOffhandFlyoutOpen"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Drops">
+                        <Grid Background="White">
+                            <Label Content="Gold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#FF3F8ECF"/>
+                            <Label Content="Always" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Foreground="#FF3F8ECF"/>
+                            <Label Content="Common" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Foreground="#FF3F8ECF"/>
+                            <Label Content="Uncommon" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Foreground="#FF3F8ECF"/>
+                            <Label Content="Rare" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Foreground="#FF3F8ECF"/>
+                            <Label Content="Very Rare" HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top" Foreground="#FF3F8ECF"/>
+                            <Label Content="Weekly" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Foreground="#FF3F8ECF"/>
+                            <Label Content="Daily" HorizontalAlignment="Left" Margin="10,185,0,0" VerticalAlignment="Top" Foreground="#FF3F8ECF"/>
+                            
+                            <Label Content="{Binding SelectedMonster.GoldDrop}" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.SurelyItemName}" HorizontalAlignment="Left" Margin="100,35,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.Normal1ItemName}" HorizontalAlignment="Left" Margin="100,60,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.Normal2ItemName}" HorizontalAlignment="Left" Margin="100,85,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.RareItemName}" HorizontalAlignment="Left" Margin="100,110,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.VeryRareItemName}" HorizontalAlignment="Left" Margin="100,135,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.WeeklyItemName}" HorizontalAlignment="Left" Margin="100,160,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.DailyItemName}" HorizontalAlignment="Left" Margin="100,185,0,0" VerticalAlignment="Top"/>
+
+                            <Label Content="{Binding SelectedMonster.SurelyAmount}" HorizontalAlignment="Left" Margin="300,35,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.Normal1Amount}" HorizontalAlignment="Left" Margin="300,60,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.Normal2Amount}" HorizontalAlignment="Left" Margin="300,85,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.RareAmount}" HorizontalAlignment="Left" Margin="300,110,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.VeryRareAmount}" HorizontalAlignment="Left" Margin="300,135,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.WeeklyAmount}" HorizontalAlignment="Left" Margin="300,160,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.DailyAmount}" HorizontalAlignment="Left" Margin="300,185,0,0" VerticalAlignment="Top"/>
+                            
+                            <Label Content="{Binding SelectedMonster.SurelyChance}" HorizontalAlignment="Left" Margin="330,35,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.Normal1Chance}" HorizontalAlignment="Left" Margin="330,60,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.Normal2Chance}" HorizontalAlignment="Left" Margin="330,85,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.RareChance}" HorizontalAlignment="Left" Margin="330,110,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.VeryRareChance}" HorizontalAlignment="Left" Margin="330,135,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.WeeklyChance}" HorizontalAlignment="Left" Margin="330,160,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{Binding SelectedMonster.DailyChance}" HorizontalAlignment="Left" Margin="330,185,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
             </Grid>
         </Border>
         <ListBox HorizontalAlignment="Left" Height="642" Margin="10,55,0,0" VerticalAlignment="Top" Width="206" ItemsSource="{Binding MonsterListView}" SelectedItem="{Binding SelectedMonsterFormation}" BorderThickness="1" SelectionChanged="CloseFlyout"/>
         <TextBox HorizontalAlignment="Left" Height="24" Margin="10,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" controls:TextBoxHelper.Watermark="Search for..." controls:TextBoxHelper.ClearTextButton="True" Text="{Binding MonsterFormationFilterString, UpdateSourceTrigger=PropertyChanged}" />
-        <controls:Flyout x:Name="MonsterChange" Position="Right" Width="200" BorderBrush="#FF153CA2" BorderThickness="1" Theme="Accent">
+        <controls:Flyout x:Name="MonsterChange" Position="Right" Width="1" BorderBrush="#FF153CA2" BorderThickness="1" Theme="Accent">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -116,7 +157,7 @@
                 <Button Grid.Row="2" Content="Set" HorizontalAlignment="Center" VerticalAlignment="Top" Width="75" Command="{Binding ChangeMonster}" Click="FlyoutDone"/>
             </Grid>
         </controls:Flyout>
-        <controls:Flyout x:Name="EquipChangeMain" Position="Right" Width="200" BorderBrush="#FF153CA2" BorderThickness="1" Theme="Accent">
+        <controls:Flyout x:Name="EquipChangeMain" Position="Right" Width="1" BorderBrush="#FF153CA2" BorderThickness="1" Theme="Accent">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -129,7 +170,7 @@
                 <Button Grid.Row="2" Content="Set" HorizontalAlignment="Center" VerticalAlignment="Top" Width="75" Command="{Binding ChangeEquipmentMain}" Click="FlyoutDone"/>
             </Grid>
         </controls:Flyout>
-        <controls:Flyout x:Name="EquipChangeOff" Position="Right" Width="200" BorderBrush="#FF153CA2" BorderThickness="1" Theme="Accent">
+        <controls:Flyout x:Name="EquipChangeOff" Position="Right" Width="1" BorderBrush="#FF153CA2" BorderThickness="1" Theme="Accent">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -142,7 +183,7 @@
                 <Button Grid.Row="2" Content="Set" HorizontalAlignment="Center" VerticalAlignment="Top" Width="75" Command="{Binding ChangeEquipmentOff}" Click="FlyoutDone"/>
             </Grid>
         </controls:Flyout>
-        <StackPanel Width="200" HorizontalAlignment="Right" Visibility="Hidden">
+        <StackPanel Width="1" HorizontalAlignment="Right">
             <TextBox />
             <ListBox Height="630" Margin="0,5"/>
             <Button />

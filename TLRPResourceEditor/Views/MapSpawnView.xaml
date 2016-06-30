@@ -11,7 +11,7 @@
         <viewModels:MapSpawnViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <ListBox ItemsSource="{Binding Maps}" SelectedItem="{Binding SelectedMap}" HorizontalAlignment="Left" Height="642" Margin="10,55,0,0" VerticalAlignment="Top" Width="206"/>
+        <ListBox ItemsSource="{Binding Maps}" SelectedItem="{Binding SelectedMap}" HorizontalAlignment="Left" Height="642" Margin="10,55,0,0" VerticalAlignment="Top" Width="206" />
         <ListBox ItemsSource="{Binding GroupedSpawnRulesRegular}" SelectedItem="{Binding SelectedOrderdEntry}" HorizontalAlignment="Left" Height="391" Margin="246,55,0,0" VerticalAlignment="Top" Width="232"/>
         <ListBox ItemsSource="{Binding GroupedSpawnRulesRare}" SelectedItem="{Binding SelectedOrderdEntry}" HorizontalAlignment="Left" Height="391" Margin="506,55,0,0" VerticalAlignment="Top" Width="232"/>
         <ListBox ItemsSource="{Binding GroupedSpawnEntries}" HorizontalAlignment="Left" Height="575" Margin="774,55,0,0" VerticalAlignment="Top" Width="201"/>

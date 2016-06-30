@@ -19,6 +19,19 @@ namespace TLRPResourceEditor.Data
         public static List<int> EquipmentToName { get; set; }
         public static List<int> Id259To262 { get; set; }
         public static List<int> Id262To36 { get; set; }
+        public static List<string> ConsumableNames { get; set; }
+        public static List<string> ComponentNames { get; set; }
+        public static List<string> CapturedMonsterNames { get; set; }
+
+        public static string DropItem(Tuple<int, int> tableInfo)
+        {
+            if (tableInfo.Item2 == 137) return ConsumableNames[tableInfo.Item1];
+            else if (tableInfo.Item2 == 138) return ComponentNames[tableInfo.Item1];
+            else if (tableInfo.Item2 == 139) return CapturedMonsterNames[tableInfo.Item1];
+            else if (tableInfo.Item2 == 127) return ItemNames[EquipmentToName[tableInfo.Item1]];
+            else if (tableInfo.Item2 == -1) return "nothing";
+            else return $"unknown {tableInfo.Item1} / {tableInfo.Item2}";
+        }
 
         /// <summary>
         /// Read all tables from the battle file (using currently selected language)
@@ -39,6 +52,88 @@ namespace TLRPResourceEditor.Data
             ItemNames = ReadItemNames(data);
             UnionNames = ReadEnemyUnionNames(data);
             UnitNames = ReadUnitNames(data);
+
+            ConsumableNames = ReadConsumableNames(data);
+            ComponentNames = ReadComponentNames(data);
+            CapturedMonsterNames = ReadCapturedMonsterNames(data);
+        }
+
+        private static List<string> ReadCapturedMonsterNames(byte[] data)
+        {
+            var result = new List<string>();
+            var offset = Files.TableOffsets[47];
+            var capturedMonsterNames = new List<string>();
+            for (var j = 0; j < 395; j++)
+            {
+                var length = BitConverter.ToInt32(data, offset);
+                var name = System.Text.Encoding.Unicode.GetString(data, offset + 4, length).
+                    Replace("", "").Replace("＠＠", "").Replace("", "").Replace("\u20ff＠", "")
+                    .Replace("燿ｘ", "").Replace("ｦ￿", "")
+                    .Replace("替￿", "").Replace("￿ｍ", "")
+                    .Replace("ｦｦ￿", "").Replace("ｦｦ", "")
+                    ;
+                capturedMonsterNames.Add(name);
+                offset += length + 0x96;
+            }
+
+            for (var i = 0; i < 394; i++)
+            {
+                result.Add(capturedMonsterNames[BitConverter.ToInt16(data, Files.TableOffsets[139] + (i * 64))]);
+            }
+
+            return result;
+        }
+
+        private static List<string> ReadComponentNames(byte[] data)
+        {
+            var result = new List<string>();
+            var offset = Files.TableOffsets[46];
+            var componentNames = new List<string>();
+            for (var j = 0; j < 834; j++)
+            {
+                var length = BitConverter.ToInt32(data, offset);
+                var name = System.Text.Encoding.Unicode.GetString(data, offset + 4, length).
+                    Replace("", "").Replace("＠＠", "").Replace("", "").Replace("\u20ff＠", "")
+                    .Replace("燿ｘ", "").Replace("ｦ￿", "")
+                    .Replace("替￿", "").Replace("￿ｍ", "")
+                    .Replace("ｦｦ￿", "").Replace("ｦｦ", "")
+                    ;
+                componentNames.Add(name);
+                offset += length + 0x96;
+            }
+
+            for (var i = 0; i < 833; i++)
+            {
+                result.Add(componentNames[BitConverter.ToInt16(data, Files.TableOffsets[138] + (i * 28))]);
+            }
+
+            return result;
+        }
+
+        private static List<string> ReadConsumableNames(byte[] data)
+        {
+            var result = new List<string>();
+            var offset = Files.TableOffsets[45];
+            var comsumableNames = new List<string>();
+            for (var j = 0; j < 61; j++)
+            {
+                var length = BitConverter.ToInt32(data, offset);
+                var name = System.Text.Encoding.Unicode.GetString(data, offset + 4, length).
+                    Replace("", "").Replace("＠＠", "").Replace("", "").Replace("\u20ff＠", "")
+                    .Replace("燿ｘ", "").Replace("ｦ￿", "")
+                    .Replace("替￿", "").Replace("￿ｍ", "")
+                    .Replace("ｦｦ￿", "")
+                    ;
+                comsumableNames.Add(name);
+                offset += length + 0x96;
+            }
+
+            for (var i = 0; i < 60; i++)
+            {
+                result.Add(comsumableNames[BitConverter.ToInt16(data, Files.TableOffsets[137] + (i * 28))]);
+            }
+
+            return result;
         }
 
         /// <summary>

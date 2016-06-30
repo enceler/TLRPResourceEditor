@@ -57,6 +57,8 @@ namespace TLRPResourceEditor.Models
                     ExpMysticArts           = data[77 + offset],
                     ExpItemArts             = data[78 + offset],
                     ExpEquipMaster          = data[79 + offset],
+                    Effect                  = BitConverter.ToInt16(data, 40 + offset),
+                    EquipStyle              = BitConverter.ToInt16(data, 26 + offset),
                     FileName                = Files.BattleFile,
                     Offset                  = offset
                 };
@@ -92,6 +94,8 @@ namespace TLRPResourceEditor.Models
         public bool Sell                    { get; set; }
         public int EquipType                { get; set; }
         public int AttackAttribute          { get; set; }
+        public int Effect                   { get; set; }
+        public int EquipStyle               { get; set; }
         public int BuyPrice                 { get { return buyPrice; }                set { ChangeStat(20, value, 4); buyPrice = value; } }
         public int SellPrice                { get { return sellPrice; }               set { ChangeStat(24, value, 4); sellPrice = value; } }
         public int BreakPrice               { get { return breakPrice; }              set { ChangeStat(28, value, 4); breakPrice = value; } }

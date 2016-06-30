@@ -8,3 +8,5 @@
 /packages
 /TLRPResourceEditor/bin/Debug
 /TLRPResourceEditor/obj/Debug
+/TLRPResourceEditor/bin/Release
+/TLRPResourceEditor/obj/Release

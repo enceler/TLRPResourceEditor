@@ -111,12 +111,12 @@ namespace TLRPResourceEditor.Data
                 Equipment.LoadData();
                 Unit.LoadData();
                 Map.LoadData();
-        }
+            }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
-}
+        }
 
         private static int[] ReadOffsets()
         {
@@ -131,6 +131,13 @@ namespace TLRPResourceEditor.Data
 
             if (Language == Language.English)
             {
+                offsets[137] = 0x7C53EA; // Consumables
+                offsets[138] = 0x7C76CB; // Components
+                offsets[139] = 0x7CE364; // Captured Monsters
+                offsets[45] = 0x3A885C; // Consumables Names
+                offsets[46] = 0x3AB2F2; // Components Names
+                offsets[47] = 0x3D1224; // Captured Monsters Names
+
                 offsets[35] = 0x308B0C; // Monster Union Names
                 offsets[36] = 0x30D826; // Character Names
                 offsets[37] = 0x349530; // Item Names
@@ -147,6 +154,13 @@ namespace TLRPResourceEditor.Data
             }
             else if (Language == Language.Deutsch)
             {
+                offsets[137] = 0x7E8E7D; // Consumables
+                offsets[138] = 0x7EB15E; // Components
+                offsets[139] = 0x7F1DF7; // Captured Monsters
+                offsets[45] = 0x3CA210; // Consumables Names
+                offsets[46] = 0x3CCD7A; // Components Names
+                offsets[47] = 0x3F3110; // Captured Monsters Names
+
                 offsets[35] = 0x3277A2; // Monster Union Names
                 offsets[36] = 0x32C47C; // Character Names
                 offsets[37] = 0x368C5A; // Item Names
@@ -163,6 +177,13 @@ namespace TLRPResourceEditor.Data
             }
             else if (Language == Language.Español)
             {
+                offsets[137] = 0x7F4C32; // Consumables
+                offsets[138] = 0x7F6F13; // Components
+                offsets[139] = 0x7FDBAC; // Captured Monsters
+                offsets[45] = 0x3D31CD; // Consumables Names
+                offsets[46] = 0x3D5E7B; // Components Names
+                offsets[47] = 0x3FDD69; // Captured Monsters Names
+
                 offsets[35] = 0x331301; // Monster Union Names
                 offsets[36] = 0x335DF1; // Character Names
                 offsets[37] = 0x37202F; // Item Names
@@ -179,6 +200,13 @@ namespace TLRPResourceEditor.Data
             }
             else if (Language == Language.Français)
             {
+                offsets[137] = 0x7D8BCF; // Consumables
+                offsets[138] = 0x7DAEB0; // Components
+                offsets[139] = 0x7E1B49; // Captured Monsters
+                offsets[45] = 0x3BA739; // Consumables Names
+                offsets[46] = 0x3BD3A3; // Components Names
+                offsets[47] = 0x3E48C7; // Captured Monsters Names
+
                 offsets[35] = 0x3188E6; // Monster Union Names
                 offsets[36] = 0x31D68C; // Character Names
                 offsets[37] = 0x359CF6; // Item Names
@@ -195,6 +223,13 @@ namespace TLRPResourceEditor.Data
             }
             else if (Language == Language.Italiano)
             {
+                offsets[137] = 0x7D769E; // Consumables
+                offsets[138] = 0x7D997F; // Components
+                offsets[139] = 0x7E0618; // Captured Monsters
+                offsets[45] = 0x3B983C; // Consumables Names
+                offsets[46] = 0x3BC434; // Components Names
+                offsets[47] = 0x3E3C6C; // Captured Monsters Names
+
                 offsets[35] = 0x3171B3; // Monster Union Names
                 offsets[36] = 0x31BD8D; // Character Names
                 offsets[37] = 0x357B4D; // Item Names
@@ -211,6 +246,13 @@ namespace TLRPResourceEditor.Data
             }
             else if (Language == Language.日本語)
             {
+                offsets[137] = 0x74CEA8; // Consumables
+                offsets[138] = 0x74F189; // Components
+                offsets[139] = 0x755E22; // Captured Monsters
+                offsets[45] = 0x3398A4; // Consumables Names
+                offsets[46] = 0x33BFE6; // Components Names
+                offsets[47] = 0x35EFBA; // Captured Monsters Names
+
                 offsets[35] = 0x2A279A; // Monster Union Names
                 offsets[36] = 0x2A6AA4; // Character Names
                 offsets[37] = 0x2DFA8E; // Item Names

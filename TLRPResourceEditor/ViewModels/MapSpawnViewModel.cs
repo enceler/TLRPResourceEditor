@@ -56,21 +56,7 @@ namespace TLRPResourceEditor.ViewModels
             return monsterFormation.Name.ToLower().Contains(_monsterFormationChangeFilter.ToLower());
         }
 
-        [OnCommand("ChangeMonsterFormation")]
-        private void ChangeSelectedMonsterFormation()
-        {
-            if (SelectedMonsterFormationChange == null || SelectedMapEntry == null)
-                return;
 
-            SelectedMapEntry.NameId = SelectedMonsterFormationChange.Id;
-            SelectedMapEntry.Name = SelectedMonsterFormationChange.ToString();
-        }
-
-        [OnCommandCanExecute("ChangeMonsterFormation")]
-        private bool ChangeSelectedMonsterFormationCanExecute()
-        {
-            return SelectedMonsterFormationChange != null && SelectedMapEntry != null;
-        }
 
 
         

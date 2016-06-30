@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:TLRPResourceEditor"
         xmlns:Views="clr-namespace:TLRPResourceEditor.Views" x:Class="TLRPResourceEditor.MainWindow"
         mc:Ignorable="d"
-        Title="TLR Resource Editor 2.2" Height="768" Width="1024" ResizeMode="CanMinimize" Icon="Resources/David.jpg" TextOptions.TextFormattingMode="Display" BorderBrush="#FF3F8ECF" BorderThickness="1" EnableDWMDropShadow="True">
+        Title="TLR Resource Editor 2.3" Height="768" Width="1024" ResizeMode="CanMinimize" Icon="Resources/David.jpg" TextOptions.TextFormattingMode="Display" BorderBrush="#FF3F8ECF" BorderThickness="1" EnableDWMDropShadow="True">
     <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
         <TabItem Header="Start">
             <Grid Background="#FFE5E5E5">

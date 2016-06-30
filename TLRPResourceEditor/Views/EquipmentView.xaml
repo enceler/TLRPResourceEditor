@@ -56,6 +56,14 @@
             </Grid>
         </Border>
         <Label Content="{Binding SelectedLanguage}" HorizontalAlignment="Left" Margin="234,27,0,0" VerticalAlignment="Top" Width="156" Height="28" FontWeight="Bold"/>
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="437" Margin="560,260,0,0"  VerticalAlignment="Top" Width="300" Background="White">
+            <Grid>
+                <Rectangle Height="1" Margin="0,25,0,0" Stroke="Gray" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                <Label Content="Effects" VerticalAlignment="Top" Margin="0,0,0,0" FontWeight="Bold" Foreground="Gray" />
+                <Label Content="{Binding SelectedEquipment.Effect}" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top"/>
+                <Label Content="{Binding SelectedEquipment.EquipStyle}" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </Border>
     </Grid>
 
 </UserControl>

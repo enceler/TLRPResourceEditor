@@ -38,6 +38,35 @@ namespace TLRPResourceEditor.Models
         private int venomDefense;
         private int equipment1Id;
         private int equipment2Id;
+        public int GoldDrop { get; set; }
+        public int SurelyItem { get; set; }
+        public int Normal1Item { get; set; }
+        public int Normal2Item { get; set; }
+        public int RareItem { get; set; }
+        public int VeryRareItem { get; set; }
+        public int WeeklyItem { get; set; }
+        public int DailyItem { get; set; }
+        public int SurelyItemIndex { get; set; }
+        public int Normal1ItemIndex { get; set; }
+        public int Normal2ItemIndex { get; set; }
+        public int RareItemIndex { get; set; }
+        public int VeryRareItemIndex { get; set; }
+        public int WeeklyItemIndex { get; set; }
+        public int DailyItemIndex { get; set; }
+        public int SurelyAmount { get; set; }
+        public int Normal1Amount { get; set; }
+        public int Normal2Amount { get; set; }
+        public int RareAmount { get; set; }
+        public int VeryRareAmount { get; set; }
+        public int WeeklyAmount { get; set; }
+        public int DailyAmount { get; set; }
+        public int SurelyChance { get; set; }
+        public int Normal1Chance { get; set; }
+        public int Normal2Chance { get; set; }
+        public int RareChance { get; set; }
+        public int VeryRareChance { get; set; }
+        public int WeeklyChance { get; set; }
+        public int DailyChance { get; set; }
 
         public bool Rare             { get { return rare; }            set { rare = value;            ChangeStat(4, value ? 1 : 0, 1); } }
         public bool Boss             { get { return boss; }            set { boss = value;            ChangeStat(5, value ? 1 : 0, 1); } }
@@ -67,6 +96,14 @@ namespace TLRPResourceEditor.Models
         public int Accessory1        { get; set; }
         public int Accessory2        { get; set; }
 
+
+        public string SurelyItemName { get; set; }
+        public string Normal1ItemName { get; set; }
+        public string Normal2ItemName { get; set; }
+        public string RareItemName { get; set; }
+        public string VeryRareItemName { get; set; }
+        public string WeeklyItemName { get; set; }
+        public string DailyItemName { get; set; }
 
         public static void LoadData()
         {
@@ -138,7 +175,42 @@ namespace TLRPResourceEditor.Models
                     EquipOffhandLevel   = data[116 + insideOffset],
                     Accessory1          = BitConverter.ToInt16(data, 118 + insideOffset),
                     Accessory2          = BitConverter.ToInt16(data, 118 + insideOffset),
-                    Offset              = insideOffset,
+
+                    GoldDrop = BitConverter.ToInt32(data, 140 + insideOffset),
+                    //SurelyItem = BitConverter.ToInt16(data, 146 + insideOffset),
+                    //Normal1Item = BitConverter.ToInt16(data, 154 + insideOffset),
+                    //Normal2Item = BitConverter.ToInt16(data, 162 + insideOffset),
+                    //RareItem = BitConverter.ToInt16(data, 170 + insideOffset),
+                    //VeryRareItem = BitConverter.ToInt16(data, 178 + insideOffset),
+                    //WeeklyItem = BitConverter.ToInt16(data, 186 + insideOffset),
+                    //DailyItem = BitConverter.ToInt16(data, 198 + insideOffset),
+
+                    SurelyChance = data[148 + insideOffset],
+                    Normal1Chance = data[156 + insideOffset],
+                    Normal2Chance = data[164 + insideOffset],
+                    RareChance = data[172 + insideOffset],
+                    VeryRareChance = data[180 + insideOffset],
+                    WeeklyChance = data[190 + insideOffset],
+                    DailyChance = data[202 + insideOffset],
+
+                    SurelyItemName = Names.DropItem(new Tuple<int, int>(BitConverter.ToInt16(data, 144 + insideOffset), BitConverter.ToInt16(data, 146 + insideOffset))),
+                    Normal1ItemName = Names.DropItem(new Tuple<int, int>(BitConverter.ToInt16(data, 152 + insideOffset), BitConverter.ToInt16(data, 154+ insideOffset))),
+                    Normal2ItemName = Names.DropItem(new Tuple<int, int>(BitConverter.ToInt16(data, 160 + insideOffset), BitConverter.ToInt16(data, 162 + insideOffset))),
+                    RareItemName = Names.DropItem(new Tuple<int, int>(BitConverter.ToInt16(data, 168 + insideOffset), BitConverter.ToInt16(data, 170 + insideOffset))),
+                    VeryRareItemName = Names.DropItem(new Tuple<int, int>(BitConverter.ToInt16(data, 176 + insideOffset), BitConverter.ToInt16(data, 178 + insideOffset))),
+                    WeeklyItemName = Names.DropItem(new Tuple<int, int>(BitConverter.ToInt16(data, 184 + insideOffset), BitConverter.ToInt16(data, 186 + insideOffset))),
+                    DailyItemName = Names.DropItem(new Tuple<int, int>(BitConverter.ToInt16(data, 196 + insideOffset), BitConverter.ToInt16(data, 198 + insideOffset))),
+
+                    Normal2Amount = data[165 + insideOffset],
+                    SurelyAmount = data[149 + insideOffset],
+                    Normal1Amount = data[157 + insideOffset],
+                    RareAmount = data[173 + insideOffset],
+                    VeryRareAmount = data[181 + insideOffset],
+                    WeeklyAmount = data[189 + insideOffset],
+                    DailyAmount = data[201 + insideOffset],
+
+
+                    Offset = insideOffset,
                     FileName            = Files.BattleFile
                 });
 
